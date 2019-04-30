@@ -1,0 +1,290 @@
+//*******************************************************************
+//Pokemon move damage calculator
+//A tool for use in calculating what the strongest move is for a Pokemon
+//for people who don't know the exact EVs and IVs
+//V1.1: Initialised Program
+//V1.2: Added the option to check against specific defensive stats
+//V1.3: Updated the program to work with the fluctuating powers of Grass Knot, Low Kick and Hidden Power
+//*******************************************************************
+
+import java.util.Scanner;
+import java.util.Properties;
+
+// one class needs to have a main() method
+public class PokemonDamage
+{
+	public static void main (String args[])
+	{
+		String pokemon;
+		double level = 0;
+		String type1;
+		String type2;
+		double attack = 0;
+		double defence = 100;
+		String defKnown;
+		double spAtk = 0;
+		double spDef = 100;
+		String spDKnown;
+		String[] moves = new String[4];
+		double[] movePower = new double[4];
+		String[] moveType = new String[4];
+		String[] moveCategory = new String[4];
+		double[] damage = new double[4];
+		String ability;
+
+		System.out.println("Enter the Pokemon's name");
+		Scanner sc = new Scanner(System.in);
+		pokemon = sc.nextLine();
+		System.out.println("Enter the Pokemon's level");
+		Scanner scLevel = new Scanner(System.in);
+		level = scLevel.nextDouble();
+		System.out.println("Enter the Pokemon's First Type");
+		Scanner scType1 = new Scanner(System.in);
+		type1 = scType1.nextLine();
+		System.out.println("Enter the Pokemon's Second Type (leave blank if it's not dual typed)");
+		Scanner scType2 = new Scanner(System.in);
+		type2 = scType2.nextLine();
+		System.out.println("Enter the Pokemon's Ability");
+		Scanner scAbility = new Scanner(System.in);
+		ability = scAbility.nextLine();
+		System.out.println("Enter the Pokemon's Attack stat");
+		Scanner sc2 = new Scanner(System.in);
+		attack = sc2.nextDouble();
+		System.out.println("Enter the Pokemon's Special Attack stat");
+		Scanner sc3 = new Scanner(System.in);
+		spAtk = sc3.nextDouble();
+		System.out.println("Do you know your opponent's Defence stat?");
+		Scanner sc4 = new Scanner(System.in);
+		defKnown = sc4.nextLine();
+		if ((defKnown).equals("Yes"))
+		{
+			System.out.println("Enter the opposing Pokemon's Defence stat");
+			Scanner scDef = new Scanner(System.in);
+			defence = scDef.nextDouble();
+		}
+		System.out.println("Do you know your opponent's Special Defence stat?");
+		Scanner sc5 = new Scanner(System.in);
+		spDKnown = sc5.nextLine();
+		if ((spDKnown).equals("Yes"))
+		{
+			System.out.println("Enter the opposing Pokemon's Special Defence stat");
+			Scanner scSpD = new Scanner(System.in);
+			spDef = scSpD.nextDouble();
+		}
+		for (int i = 0; i < moves.length; i++)
+		{
+			System.out.println("Enter the Pokemon's " + (i + 1) + " move");
+			Scanner scMove = new Scanner(System.in);
+			moves[i] = scMove.nextLine();
+			System.out.println("Enter the Pokemon's " + (i + 1) + " move Type");
+			Scanner scType = new Scanner(System.in);
+			moveType[i] = scType.nextLine();
+			if ((moves[i]).equals("Low Kick") ||(moves[i]).equals("Grass Knot"))
+			{
+				double weight;
+				System.out.println("This move does not have a set power. How heavy is the target Pokemon? (weight in kg)");
+				Scanner scWeight = new Scanner(System.in);
+				weight = scWeight.nextDouble();
+				if (weight < 10)
+				{
+					movePower[i] = 20;
+				}
+				else if (weight >= 10 && weight < 25)
+				{
+					movePower[i] = 40;
+				}
+				else if (weight >= 25 && weight < 50)
+				{
+					movePower[i] = 60;
+				}
+				else if (weight >= 50 && weight < 100)
+				{
+					movePower[i] = 80;
+				}
+				else if (weight >= 100 && weight < 200)
+				{
+					movePower[i] = 100;
+				}
+				else if (weight >= 200)
+				{
+					movePower[i] = 120;
+				}
+				else
+				{
+					System.out.println("Something went wrong, please try again");
+					System.exit(0);
+				}
+			}
+			else if ((moves[i]).equals("Hidden Power"))
+			{
+				double hPValue = 0 ;
+				double hPCalculation = 0;
+				if ((moveType[i]).equals("Fighting"))
+				{
+					hPValue = 0;
+				}
+				else if ((moveType[i]).equals("Flying"))
+				{
+					hPValue = 1;
+				}
+				else if ((moveType[i]).equals("Poison"))
+				{
+					hPValue = 2;
+				}
+				else if ((moveType[i]).equals("Ground"))
+				{
+					hPValue = 3;
+				}
+				else if ((moveType[i]).equals("Rock"))
+				{
+					hPValue = 4;
+				}
+				else if ((moveType[i]).equals("Bug"))
+				{
+					hPValue = 5;
+				}
+				else if ((moveType[i]).equals("Ghost"))
+				{
+					hPValue = 6;
+				}
+				else if ((moveType[i]).equals("Steel"))
+				{
+					hPValue = 7;
+				}
+				else if ((moveType[i]).equals("Fire"))
+				{
+					hPValue = 8;
+				}
+				else if ((moveType[i]).equals("Water"))
+				{
+					hPValue = 9;
+				}
+				else if ((moveType[i]).equals("Grass"))
+				{
+					hPValue = 10;
+				}
+				else if ((moveType[i]).equals("Electric"))
+				{
+					hPValue = 11;
+				}
+				else if ((moveType[i]).equals("Psychic"))
+				{
+					hPValue = 12;
+				}
+				else if ((moveType[i]).equals("Ice"))
+				{
+					hPValue = 13;
+				}
+				else if ((moveType[i]).equals("Dragon"))
+				{
+					hPValue = 14;
+				}
+				else if ((moveType[i]).equals("Dark"))
+				{
+					hPValue = 15;
+				}
+				else
+				{
+					System.out.println("Something went wrong, please try again");
+					System.exit(0);
+				}
+				hPCalculation = hPValue * 63;
+				hPCalculation = hPCalculation / 15;
+				hPCalculation = hPCalculation * 40;
+				hPCalculation = hPCalculation / 63;
+				hPCalculation = hPCalculation + 30;
+				movePower[i] = Math.round(hPCalculation);
+				System.out.println("Hidden Power's move power is " + movePower[i]);
+			}
+			else
+			{
+				System.out.println("Enter the Pokemon's " + (i + 1) + " move Power (Enter 0 if the move is a status move)");
+				Scanner scPower = new Scanner(System.in);
+				movePower[i] = scPower.nextDouble();
+			}
+			System.out.println("Is the move physical,special or status?");
+			Scanner scCategory = new Scanner(System.in);
+			moveCategory[i] = scType.nextLine();
+			if ((moveCategory[i]).equals("Physical"))
+			{
+				System.out.println("Physical move confirmed");
+			}
+			else if ((moveCategory[i]).equals("Special"))
+			{
+				System.out.println("Special move confirmed");
+			}
+			else if ((moveCategory[i]).equals("Status"))
+			{
+				System.out.println("Status move confirmed");
+			}
+			else
+			{
+				System.out.println("Something went wrong, please try again");
+				System.exit(0);
+			}
+		}
+		for (int i = 0; i < moves.length; i++)
+		{
+			double moveDamage = 0;
+			double STAB = 1.5;
+			boolean statusException = false;
+			moveDamage = level * 2;
+			moveDamage = moveDamage / 5;
+			moveDamage = moveDamage + 2;
+			if ((ability).equals ("Adaptability"))
+			{
+				STAB = 2;
+			}
+			else if ((ability).equals ("Water Bubble"))
+			{
+				if ((moveType[i]).equals("Water"))
+				{
+					movePower[i] = movePower[i] * 2;
+				}
+			}
+			if ((moveCategory[i]).equals("Physical"))
+			{
+				double attackVsDefence;
+				attackVsDefence = attack / defence;
+				moveDamage = moveDamage * movePower[i];
+				moveDamage = moveDamage * attackVsDefence;
+			}
+			else if ((moveCategory[i]).equals("Special"))
+			{
+				double attackVsDefence;
+				attackVsDefence = spAtk / spDef;
+				moveDamage = moveDamage * movePower[i];
+				moveDamage = moveDamage * attackVsDefence;
+			}
+			else if ((moveCategory[i]).equals("Status"))
+			{
+				moveDamage = 0;
+				statusException = true;
+			}
+			else
+			{
+				System.out.println("Something went wrong, please try again");
+				System.exit(0);
+			}
+			if (statusException == false)
+			{
+				moveDamage = moveDamage / 50;
+				moveDamage = moveDamage + 2;
+				if ((type1).equals(moveType[i]))
+				{
+					moveDamage = moveDamage * STAB;
+				}
+				else if ((type2).equals(moveType[i]))
+				{
+					moveDamage = moveDamage * STAB;
+				}
+			}
+			damage[i] = moveDamage;
+		}
+		System.out.println(pokemon +"'s move damage is as follows");
+		System.out.println(moves[0] + " " + damage[0]);
+		System.out.println(moves[1] + " " + damage[1]);
+		System.out.println(moves[2] + " " + damage[2]);
+		System.out.println(moves[3] + " " + damage[3]);
+	}
+}
